@@ -123,30 +123,28 @@ def upload():
 
 @app.route('/search', methods=['POST'])
 def search():
-    magnitude = float(request.form['magnitude'])
-    min_magnitude = float(request.form.get('min_magnitude', 0))
-    max_magnitude = float(request.form.get('max_magnitude', 0))
-    
+    magnitude = request.form.get('magnitude', None)
+    min_magnitude = request.form.get('min_magnitude', None)
+    max_magnitude = request.form.get('max_magnitude', None)
+
     conn = pyodbc.connect(connection_string)
     cursor = conn.cursor()
-    
+
     if min_magnitude and max_magnitude:
         cursor.execute('''
-    SELECT * FROM all_month WHERE mag BETWEEN ? AND ?
-''', (min_magnitude, max_magnitude))
+            SELECT * FROM all_month WHERE mag BETWEEN ? AND ?
+        ''', (min_magnitude, max_magnitude))
     elif magnitude:
         cursor.execute('''
             SELECT * FROM all_month WHERE mag > ?
         ''', (magnitude,))
     else:
         return 'No search criteria provided.'
-    
+
     results = cursor.fetchall()
     conn.close()
     return render_template('results.html', results=results)
 
-
-# ... remaining code ...
 
 
 
