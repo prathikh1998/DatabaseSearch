@@ -1,4 +1,4 @@
 flask
 pyodbc
-sklearn
+scikit-learn
 Flask-WTF
