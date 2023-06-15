@@ -132,8 +132,8 @@ def search():
     
     if min_magnitude and max_magnitude:
         cursor.execute('''
-            SELECT * FROM all_month WHERE mag >= ? AND mag <= ?
-        ''', (min_magnitude, max_magnitude))
+    SELECT * FROM all_month WHERE mag BETWEEN ? AND ?
+''', (min_magnitude, max_magnitude))
     elif magnitude:
         cursor.execute('''
             SELECT * FROM all_month WHERE mag > ?
