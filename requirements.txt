@@ -1,4 +1,6 @@
 flask
 pyodbc
 scikit-learn
+geopy
 Flask-WTF
+
