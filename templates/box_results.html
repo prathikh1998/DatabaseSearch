@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>City Bounding Box Search Results</title>
+</head>
+<body>
+    <h1>City Bounding Box Search Results</h1>
+    {% if cities_in_box %}
+        <h2>Cities within the Bounding Box</h2>
+        <ul>
+        {% for city in cities_in_box %}
+            <li>
+                <strong>City:</strong> {{ city.City }},
+                <strong>State:</strong> {{ city.State }},
+                <strong>Population:</strong> {{ city.Population }},
+                <strong>Latitude:</strong> {{ city.lat }},
+                <strong>Longitude:</strong> {{ city.lon }}
+            </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No cities found within the bounding box.</p>
+    {% endif %}
+</body>
+</html>

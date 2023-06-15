@@ -1,69 +1,38 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Search Results</title>
-    <style>
-        table {
-            border-collapse: collapse;
-            width: 100%;
-        }
-
-        th, td {
-            border: 1px solid black;
-            padding: 8px;
-        }
-
-        th {
-            background-color: #f2f2f2;
-        }
-    </style>
+    <title>City Search Results</title>
 </head>
 <body>
-    <h1>Search Results</h1>
-    <h2>Selected City</h2>
+    <h1>City Search Results</h1>
     {% if selected_city %}
-    <table>
-        <tr>
-            <th>City</th>
-            <th>State</th>
-            <th>Population</th>
-            <th>Latitude</th>
-            <th>Longitude</th>
-        </tr>
-        <tr>
-            <td>{{ selected_city.City }}</td>
-            <td>{{ selected_city.State }}</td>
-            <td>{{ selected_city.Population }}</td>
-            <td>{{ selected_city.lat }}</td>
-            <td>{{ selected_city.lon }}</td>
-        </tr>
-    </table>
+        <h2>Selected City</h2>
+        <ul>
+            <li><strong>City:</strong> {{ selected_city.City }}</li>
+            <li><strong>State:</strong> {{ selected_city.State }}</li>
+            <li><strong>Population:</strong> {{ selected_city.Population }}</li>
+            <li><strong>Latitude:</strong> {{ selected_city.lat }}</li>
+            <li><strong>Longitude:</strong> {{ selected_city.lon }}</li>
+        </ul>
+        
+        {% if nearby_cities %}
+            <h2>Nearby Cities</h2>
+            <ul>
+            {% for city in nearby_cities %}
+                <li>
+                    <strong>City:</strong> {{ city.City }},
+                    <strong>State:</strong> {{ city.State }},
+                    <strong>Population:</strong> {{ city.Population }},
+                    <strong>Latitude:</strong> {{ city.lat }},
+                    <strong>Longitude:</strong> {{ city.lon }}
+                </li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <p>No nearby cities found.</p>
+        {% endif %}
     {% else %}
-    <p>No selected city found.</p>
-    {% endif %}
-
-    <h2>Nearby Cities</h2>
-    {% if nearby_cities %}
-    <table>
-        <tr>
-            <th>City</th>
-            <th>State</th>
-            <th>Population</th>
-            <th>Latitude</th>
-            <th>Longitude</th>
-        </tr>
-        {% for city in nearby_cities %}
-        <tr>
-            <td>{{ city.City }}</td>
-            <td>{{ city.State }}</td>
-            <td>{{ city.Population }}</td>
-            <td>{{ city.lat }}</td>
-            <td>{{ city.lon }}</td>
-        </tr>
-        {% endfor %}
-    </table>
-    {% else %}
-    <p>No nearby cities found.</p>
+        <p>No city found.</p>
     {% endif %}
 </body>
 </html>

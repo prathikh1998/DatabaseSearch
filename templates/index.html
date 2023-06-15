@@ -1,24 +1,31 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>City Data</title>
-    <style>
-        /* Add your CSS styles here */
-    </style>
+    <title>City Search</title>
 </head>
 <body>
-    <h1>CLOUD COMPUTING QUIZ 2</h1>
-    <h1>PRATHIK HEGDE - 4424</h1>
-    <h1>City Data</h1>
-    <form action="/upload" method="POST" enctype="multipart/form-data">
-        <input type="file" name="file">
-        <input type="submit" value="Upload">
-    </form>
-    <hr>
+    <h1>City Search</h1>
     <form action="/search" method="POST">
-        <label for="city">Search city details</label>
-        <input type="text" name="city">
-        <input type="submit" value="Search">
+        <label for="city">City:</label>
+        <input type="text" name="city" id="city" required>
+        <button type="submit">Search</button>
+    </form>
+    
+    <hr>
+    
+    <h2>Bounding Box Search</h2>
+    <form action="/bounding_box_search" method="POST">
+        <label for="min_lat">Minimum Latitude:</label>
+        <input type="text" name="min_lat" id="min_lat" required>
+        <label for="min_lon">Minimum Longitude:</label>
+        <input type="text" name="min_lon" id="min_lon" required>
+        <br>
+        <label for="max_lat">Maximum Latitude:</label>
+        <input type="text" name="max_lat" id="max_lat" required>
+        <label for="max_lon">Maximum Longitude:</label>
+        <input type="text" name="max_lon" id="max_lon" required>
+        <br>
+        <button type="submit">Search</button>
     </form>
 </body>
 </html>
