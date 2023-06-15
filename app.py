@@ -59,7 +59,6 @@ def index():
     return render_template('index.html')
 
 @app.route('/upload', methods=['POST'])
-@app.route('/upload', methods=['POST'])
 def upload():
     file = request.files['file']
     file_path = 'STATIC/all_month.csv'  # Set the correct file path
@@ -120,17 +119,36 @@ def upload():
 
     return 'No file selected.'
 
+# ... previous code ...
+
 @app.route('/search', methods=['POST'])
 def search():
     magnitude = float(request.form['magnitude'])
+    min_magnitude = float(request.form.get('min_magnitude', 0))
+    max_magnitude = float(request.form.get('max_magnitude', 0))
+    
     conn = pyodbc.connect(connection_string)
     cursor = conn.cursor()
-    cursor.execute('''
-        SELECT * FROM all_month WHERE mag > ?
-    ''', (magnitude,))
+    
+    if min_magnitude and max_magnitude:
+        cursor.execute('''
+            SELECT * FROM all_month WHERE mag >= ? AND mag <= ?
+        ''', (min_magnitude, max_magnitude))
+    elif magnitude:
+        cursor.execute('''
+            SELECT * FROM all_month WHERE mag > ?
+        ''', (magnitude,))
+    else:
+        return 'No search criteria provided.'
+    
     results = cursor.fetchall()
     conn.close()
     return render_template('results.html', results=results)
+
+
+# ... remaining code ...
+
+
 
 
 if __name__ == '__main__':
