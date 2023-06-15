@@ -2,6 +2,7 @@ from flask import Flask, render_template, request
 import csv
 import pyodbc
 import sqlite3
+from geopy.distance import geodesic
 
 app = Flask(__name__)
 
@@ -83,9 +84,24 @@ def search():
     cursor.execute('''
         SELECT * FROM city WHERE City LIKE ?
     ''', (city,))
-    results = cursor.fetchall()
-    conn.close()
-    return render_template('results.html', results=results)
+    selected_city = cursor.fetchone()
+    
+    if selected_city:
+        selected_lat = selected_city.lat
+        selected_lon = selected_city.lon
+        
+        # Find cities within 100 km of the selected city
+        cursor.execute('''
+            SELECT * FROM city WHERE City != ? AND
+            CAST(geography::Point(lat, lon, 4326).STDistance(geography::Point(?, ?, 4326)) AS FLOAT) <= 100000
+        ''', (city, selected_lat, selected_lon))
+        
+        nearby_cities = cursor.fetchall()
+        conn.close()
+        return render_template('results.html', selected_city=selected_city, nearby_cities=nearby_cities)
+    else:
+        conn.close()
+        return render_template('results.html', selected_city=None, nearby_cities=None)
 
 
 if __name__ == '__main__':
