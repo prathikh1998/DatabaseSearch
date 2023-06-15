@@ -49,9 +49,9 @@ def upload():
             longitude = float(row[2])
             depth = float(row[3])
             magnitude = float(row[4])
-            place = row[13]
+            place = row[12]  # Updated index for 'place' column
             cursor.execute('''
-                INSERT INTO all_month (time, latitude, longitude, depth, magnitude, place)
+                INSERT INTO earthquakes (time, latitude, longitude, depth, magnitude, place)
                 VALUES (?, ?, ?, ?, ?, ?)
             ''', (time, latitude, longitude, depth, magnitude, place))
         conn.commit()
@@ -65,11 +65,12 @@ def search():
     conn = pyodbc.connect(connection_string)
     cursor = conn.cursor()
     cursor.execute('''
-        SELECT * FROM all_month WHERE magnitude > ?
+        SELECT * FROM earthquakes WHERE magnitude > ?
     ''', (magnitude,))
     results = cursor.fetchall()
     conn.close()
     return render_template('results.html', results=results)
+
 
 if __name__ == '__main__':
     app.run()
