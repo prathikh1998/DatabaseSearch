@@ -50,17 +50,8 @@
         </div>
         <input type="submit" value="Search">
     </form>
+    
 
-    <!-- Add link to clusters page -->
-    <hr>
-    <h2>Find Clusters of Earthquakes</h2>
-    <form action="/clusters" method="GET">
-        <label for="eps">Epsilon:</label>
-        <input type="number" name="eps" step="0.1" value="1.0">
-        <label for="min_samples">Minimum Samples:</label>
-        <input type="number" name="min_samples" value="5">
-        <input type="submit" value="Find Clusters">
-    </form>
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
