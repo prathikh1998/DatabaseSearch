@@ -81,7 +81,7 @@ def search():
     conn = pyodbc.connect(connection_string)
     cursor = conn.cursor()
     cursor.execute('''
-        SELECT * FROM city WHERE City= ?
+        SELECT * FROM city WHERE City LIKE ?
     ''', (city,))
     results = cursor.fetchall()
     conn.close()
