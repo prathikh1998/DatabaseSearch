@@ -104,5 +104,24 @@ def search():
         return render_template('results.html', selected_city=None, nearby_cities=None)
 
 
+@app.route('/bounding_box_search', methods=['POST'])
+def bounding_box_search():
+    min_lat = float(request.form['min_lat'])
+    min_lon = float(request.form['min_lon'])
+    max_lat = float(request.form['max_lat'])
+    max_lon = float(request.form['max_lon'])
+
+    conn = pyodbc.connect(connection_string)
+    cursor = conn.cursor()
+    
+    cursor.execute('''
+        SELECT * FROM city WHERE lat >= ? AND lat <= ? AND lon >= ? AND lon <= ?
+    ''', (min_lat, max_lat, min_lon, max_lon))
+    
+    cities_in_box = cursor.fetchall()
+    conn.close()
+    return render_template('box_results.html', cities_in_box=cities_in_box)
+
+
 if __name__ == '__main__':
     app.run()
