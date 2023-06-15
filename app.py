@@ -125,6 +125,10 @@ from datetime import datetime, timedelta
 
 # ...
 
+from datetime import datetime, timedelta
+
+# ...
+
 @app.route('/search', methods=['POST'])
 def search():
     magnitude = request.form.get('magnitude', None)
@@ -160,13 +164,32 @@ def search():
         cursor.execute('''
             SELECT * FROM all_month WHERE time >= ? AND time < ?
         ''', (start_date_str, end_date_str))
+    elif time_period == "1_week":
+        # Calculate the start_date as one week ago from the current date and time
+        start_date = datetime.now() - timedelta(weeks=1)
+
+        # Format the start_date as a string
+        start_date_str = start_date.strftime("%Y-%m-%d %H:%M:%S")
+
+        cursor.execute('''
+            SELECT * FROM all_month WHERE time >= ?
+        ''', (start_date_str,))
+    elif time_period == "30_days":
+        # Calculate the start_date as 30 days ago from the current date and time
+        start_date = datetime.now() - timedelta(days=30)
+
+        # Format the start_date as a string
+        start_date_str = start_date.strftime("%Y-%m-%d %H:%M:%S")
+
+        cursor.execute('''
+            SELECT * FROM all_month WHERE time >= ?
+        ''', (start_date_str,))
     else:
         return 'No search criteria provided.'
 
     results = cursor.fetchall()
     conn.close()
     return render_template('results.html', results=results)
-
 
 
 
