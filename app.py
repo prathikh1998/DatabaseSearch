@@ -77,7 +77,7 @@ def upload():
 
 @app.route('/search', methods=['POST'])
 def search():
-    city = request.form['city'])
+    city = request.form['city']
     conn = pyodbc.connect(connection_string)
     cursor = conn.cursor()
     cursor.execute('''
