@@ -17,30 +17,12 @@ def create_table():
     conn = pyodbc.connect(connection_string)
     cursor = conn.cursor()
     cursor.execute('''
-        CREATE TABLE IF NOT EXISTS all_month (
-            id INT IDENTITY(1,1) PRIMARY KEY,
-            time VARCHAR(50),
-            latitude FLOAT,
-            longitude FLOAT,
-            depth FLOAT,
-            mag FLOAT,
-            magType VARCHAR(50),
-            nst FLOAT,
-            gap FLOAT,
-            dmin FLOAT,
-            rms FLOAT,
-            net VARCHAR(50),
-            eid VARCHAR(50),
-            updated VARCHAR(50),
-            place VARCHAR(100),
-            type VARCHAR(50),
-            horizontalError FLOAT,
-            depthError FLOAT,
-            magError FLOAT,
-            magNst FLOAT,
-            status VARCHAR(50),
-            locationSource VARCHAR(50),
-            magSource VARCHAR(50)
+        CREATE TABLE IF NOT EXISTS city (
+            City VARCHAR(50) NULL,
+            State VARCHAR(50) NULL,
+            Population INT NULL,
+            lat FLOAT NULL,
+            lon FLOAT NULL
         )
     ''')
     conn.commit()
@@ -53,7 +35,7 @@ def index():
 @app.route('/upload', methods=['POST'])
 def upload():
     file = request.files['file']
-    file_path = './STATIC/all_month.csv'  # Set the correct file path
+    file_path = './STATIC/city.csv'  # Set the correct file path
 
     # Save the file to disk
     file.save(file_path)
