@@ -121,20 +121,12 @@ def upload():
 
     return 'No file selected.'
 
-# ... previous code ...
-
-from datetime import datetime, timedelta
-
-# ...
-
 @app.route('/search', methods=['POST'])
 def search():
     magnitude = request.form.get('magnitude', None)
     min_magnitude = request.form.get('min_magnitude', None)
     max_magnitude = request.form.get('max_magnitude', None)
     time_period = request.form.get('time_period', None)
-    start_date = request.form.get('start_date', None)
-    end_date = request.form.get('end_date', None)
 
     conn = pyodbc.connect(connection_string)
     cursor = conn.cursor()
@@ -147,49 +139,17 @@ def search():
         cursor.execute('''
             SELECT * FROM all_month WHERE mag > ?
         ''', (magnitude,))
-    elif time_period == "range_of_days" and start_date and end_date:
-        # Convert the start_date and end_date strings to datetime objects
-        start_date = datetime.strptime(start_date, "%Y-%m-%d")
-        end_date = datetime.strptime(end_date, "%Y-%m-%d")
-
-        # Add one day to the end_date to include events on that day
-        end_date += timedelta(days=1)
-
-        # Format the datetime objects as strings
-        start_date_str = start_date.strftime("%Y-%m-%d %H:%M:%S")
-        end_date_str = end_date.strftime("%Y-%m-%d %H:%M:%S")
-
+    elif time_period == "range_of_days":
+        # Adjust the query according to your database schema and column names
         cursor.execute('''
-            SELECT * FROM all_month WHERE time >= ? AND time < ?
-        ''', (start_date_str, end_date_str))
-    elif time_period == "1_week":
-        # Calculate the start_date as one week ago from the current date and time
-        start_date = datetime.now() - timedelta(weeks=1)
-
-        # Format the start_date as a string
-        start_date_str = start_date.strftime("%Y-%m-%d %H:%M:%S")
-
-        cursor.execute('''
-            SELECT * FROM all_month WHERE time >= ?
-        ''', (start_date_str,))
-    elif time_period == "30_days":
-        # Calculate the start_date as 30 days ago from the current date and time
-        start_date = datetime.now() - timedelta(days=30)
-
-        # Format the start_date as a string
-        start_date_str = start_date.strftime("%Y-%m-%d %H:%M:%S")
-
-        cursor.execute('''
-            SELECT * FROM all_month WHERE time >= ?
-        ''', (start_date_str,))
+            SELECT * FROM all_month WHERE time >= ? AND time <= ?
+        ''', (start_date, end_date))
     else:
         return 'No search criteria provided.'
 
     results = cursor.fetchall()
     conn.close()
     return render_template('results.html', results=results)
-
-
 
 
 
