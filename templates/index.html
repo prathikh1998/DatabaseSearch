@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Earthquake Data</title>
     <!-- index.html and results.html -->
@@ -9,6 +10,7 @@
         /* Add your CSS styles here */
     </style>
 </head>
+
 <body>
     <h1>Earthquake Data</h1>
     <form action="/upload" method="POST" enctype="multipart/form-data">
@@ -48,7 +50,7 @@
         </div>
         <input type="submit" value="Search">
     </form>
-    
+
     <!-- Add link to clusters page -->
     <hr>
     <h2>Find Clusters of Earthquakes</h2>
@@ -61,11 +63,11 @@
     </form>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
             var timePeriodSelect = document.querySelector("select[name='time_period']");
             var dateRangeFields = document.getElementById("date_range_fields");
-    
-            timePeriodSelect.addEventListener("change", function() {
+
+            timePeriodSelect.addEventListener("change", function () {
                 if (this.value === "range_of_days") {
                     dateRangeFields.style.display = "block";
                 } else {
@@ -75,4 +77,5 @@
         });
     </script>
 </body>
+
 </html>
