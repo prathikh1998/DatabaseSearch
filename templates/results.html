@@ -21,8 +21,17 @@
 </head>
 <body>
     <h1>Search Results</h1>
-    
-    {% if results %}
+    <form action="/search" method="POST">
+        <label for="magnitude">Search earthquakes with magnitude greater than:</label>
+        <input type="number" name="magnitude" step="0.1">
+        <br>
+        <label for="min_magnitude">Search earthquakes with magnitude between:</label>
+        <input type="number" name="min_magnitude" step="0.1">
+        <input type="number" name="max_magnitude" step="0.1">
+        <br>
+        <input type="submit" value="Search">
+    </form>
+    <hr>
     <table>
         <thead>
             <tr>
@@ -49,8 +58,5 @@
             {% endfor %}
         </tbody>
     </table>
-    {% else %}
-    <p>No results found.</p>
-    {% endif %}
 </body>
 </html>
