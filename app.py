@@ -61,7 +61,7 @@ def index():
 @app.route('/upload', methods=['POST'])
 def upload():
     file = request.files['file']
-    with open(file_path, 'r', encoding='utf-8') as file:
+    with open(./STATIC/all_month.csv, 'r', encoding='utf-8') as file:
         csv_reader = csv.reader(file)
         next(csv_reader)
     if file:
