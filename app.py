@@ -1,8 +1,6 @@
 from flask import Flask, render_template, request
 import csv
 import pyodbc
-from sklearn.cluster import DBSCAN 
-import numpy as np
 
 app = Flask(__name__)
 
@@ -121,37 +119,19 @@ def upload():
 
     return 'No file selected.'
 
+
 @app.route('/search', methods=['POST'])
 def search():
-    magnitude = request.form.get('magnitude', None)
-    min_magnitude = request.form.get('min_magnitude', None)
-    max_magnitude = request.form.get('max_magnitude', None)
-    time_period = request.form.get('time_period', None)
-
+    magnitude = float(request.form['magnitude'])
     conn = pyodbc.connect(connection_string)
     cursor = conn.cursor()
-
-    if min_magnitude and max_magnitude:
-        cursor.execute('''
-            SELECT * FROM all_month WHERE mag BETWEEN ? AND ?
-        ''', (min_magnitude, max_magnitude))
-    elif magnitude:
-        cursor.execute('''
-            SELECT * FROM all_month WHERE mag > ?
-        ''', (magnitude,))
-    elif time_period == "range_of_days":
-        # Adjust the query according to your database schema and column names
-        cursor.execute('''
-            SELECT * FROM all_month WHERE time >= ? AND time <= ?
-        ''', (start_date, end_date))
-    else:
-        return 'No search criteria provided.'
-
+    cursor.execute('''
+        SELECT * FROM all_month WHERE mag > ?
+    ''', (magnitude,))
     results = cursor.fetchall()
     conn.close()
     return render_template('results.html', results=results)
 
 
-
 if __name__ == '__main__':
-    app.run()
+    app.run() is this correct
