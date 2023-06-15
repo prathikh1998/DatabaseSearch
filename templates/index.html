@@ -30,7 +30,7 @@
         <input type="submit" value="Search">
     </form>
     <hr>
-    <<form action="/search" method="POST">
+    <form action="/search" method="POST">
         <label for="time_period">Time Period:</label>
         <select name="time_period">
             <option value="1_week">1 Week</option>
@@ -48,6 +48,22 @@
         </div>
         <input type="submit" value="Search">
     </form>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var timePeriodSelect = document.querySelector("select[name='time_period']");
+            var dateRangeFields = document.getElementById("date_range_fields");
+    
+            timePeriodSelect.addEventListener("change", function() {
+                if (this.value === "range_of_days") {
+                    dateRangeFields.style.display = "block";
+                } else {
+                    dateRangeFields.style.display = "none";
+                }
+            });
+        });
+    </script>
+    
     
 </body>
 </html>
