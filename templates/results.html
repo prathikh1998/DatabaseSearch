@@ -21,6 +21,8 @@
 </head>
 <body>
     <h1>Search Results</h1>
+    
+    {% if results %}
     <table>
         <thead>
             <tr>
@@ -47,5 +49,8 @@
             {% endfor %}
         </tbody>
     </table>
+    {% else %}
+    <p>No results found.</p>
+    {% endif %}
 </body>
 </html>

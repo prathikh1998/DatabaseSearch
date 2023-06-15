@@ -21,5 +21,23 @@
         <input type="number" name="magnitude" step="0.1">
         <input type="submit" value="Search">
     </form>
+    <hr>
+    <h2>Additional Search Options</h2>
+    <form action="/search" method="POST">
+        <label for="magnitude_range">Magnitude Range:</label>
+        <input type="number" name="min_magnitude" step="0.1" placeholder="Minimum Magnitude">
+        <input type="number" name="max_magnitude" step="0.1" placeholder="Maximum Magnitude">
+        <input type="submit" value="Search">
+    </form>
+    <hr>
+    <form action="/search" method="POST">
+        <label for="time_period">Time Period:</label>
+        <select name="time_period">
+            <option value="1_week">1 Week</option>
+            <option value="range_of_days">Range of Days</option>
+            <option value="30_days">30 Days</option>
+        </select>
+        <input type="submit" value="Search">
+    </form>
 </body>
 </html>
