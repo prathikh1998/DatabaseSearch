@@ -12,7 +12,7 @@ username = 'prathikhegde'
 password = 'Tco7890$'
 driver = '{ODBC Driver 18 for SQL Server}'
 
-connection_string = f"DRIVER={driver};SERVER={server};DATABASE={database};UID={username};PWD={password}";Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;
+connection_string = f"DRIVER={driver};SERVER={server};DATABASE={database};UID={username};PWD={password}"
 def create_table():
     conn = pyodbc.connect(connection_string)
     cursor = conn.cursor()
