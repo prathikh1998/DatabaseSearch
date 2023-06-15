@@ -30,14 +30,24 @@
         <input type="submit" value="Search">
     </form>
     <hr>
-    <form action="/search" method="POST">
+    <<form action="/search" method="POST">
         <label for="time_period">Time Period:</label>
         <select name="time_period">
             <option value="1_week">1 Week</option>
             <option value="range_of_days">Range of Days</option>
             <option value="30_days">30 Days</option>
         </select>
+        <br>
+        <div id="date_range_fields" style="display: none;">
+            <label for="start_date">Start Date:</label>
+            <input type="date" name="start_date">
+            <br>
+            <label for="end_date">End Date:</label>
+            <input type="date" name="end_date">
+            <br>
+        </div>
         <input type="submit" value="Search">
     </form>
+    
 </body>
 </html>
