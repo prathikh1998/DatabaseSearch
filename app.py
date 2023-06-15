@@ -17,7 +17,7 @@ def create_table():
     conn = pyodbc.connect(connection_string)
     cursor = conn.cursor()
     cursor.execute('''
-        CREATE TABLE IF NOT EXISTS earthquakes (
+        CREATE TABLE IF NOT EXISTS all_month (
             id INT IDENTITY(1,1) PRIMARY KEY,
             time VARCHAR(50),
             latitude FLOAT,
@@ -51,7 +51,7 @@ def upload():
             magnitude = float(row[4])
             place = row[13]
             cursor.execute('''
-                INSERT INTO earthquakes (time, latitude, longitude, depth, magnitude, place)
+                INSERT INTO all_month (time, latitude, longitude, depth, magnitude, place)
                 VALUES (?, ?, ?, ?, ?, ?)
             ''', (time, latitude, longitude, depth, magnitude, place))
         conn.commit()
@@ -65,7 +65,7 @@ def search():
     conn = pyodbc.connect(connection_string)
     cursor = conn.cursor()
     cursor.execute('''
-        SELECT * FROM earthquakes WHERE magnitude > ?
+        SELECT * FROM all_month WHERE magnitude > ?
     ''', (magnitude,))
     results = cursor.fetchall()
     conn.close()
