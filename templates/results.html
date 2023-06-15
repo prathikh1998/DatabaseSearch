@@ -20,6 +20,8 @@
 </head>
 <body>
     <h1>Search Results</h1>
+    <h2>Selected City</h2>
+    {% if selected_city %}
     <table>
         <tr>
             <th>City</th>
@@ -27,19 +29,41 @@
             <th>Population</th>
             <th>Latitude</th>
             <th>Longitude</th>
-            <!-- Add more table headers for each column -->
         </tr>
-        {% for row in results %}
         <tr>
-            <td>{{ row[0] }}</td>
-            <td>{{ row[1] }}</td>
-            <td>{{ row[2] }}</td>
-            <td>{{ row[3] }}</td>
-            <td>{{ row[4] }}</td>
+            <td>{{ selected_city.City }}</td>
+            <td>{{ selected_city.State }}</td>
+            <td>{{ selected_city.Population }}</td>
+            <td>{{ selected_city.lat }}</td>
+            <td>{{ selected_city.lon }}</td>
+        </tr>
+    </table>
+    {% else %}
+    <p>No selected city found.</p>
+    {% endif %}
 
-            <!-- Add more table cells for each column -->
+    <h2>Nearby Cities</h2>
+    {% if nearby_cities %}
+    <table>
+        <tr>
+            <th>City</th>
+            <th>State</th>
+            <th>Population</th>
+            <th>Latitude</th>
+            <th>Longitude</th>
+        </tr>
+        {% for city in nearby_cities %}
+        <tr>
+            <td>{{ city.City }}</td>
+            <td>{{ city.State }}</td>
+            <td>{{ city.Population }}</td>
+            <td>{{ city.lat }}</td>
+            <td>{{ city.lon }}</td>
         </tr>
         {% endfor %}
     </table>
+    {% else %}
+    <p>No nearby cities found.</p>
+    {% endif %}
 </body>
 </html>
