@@ -15,7 +15,6 @@ driver = '{ODBC Driver 17 for SQL Server}'
 
 connection_string = f"DRIVER={driver};SERVER={server};DATABASE={database};UID={username};PWD={password}"
 
-
 def create_table():
     conn = pyodbc.connect(connection_string)
     cursor = conn.cursor()
@@ -51,16 +50,15 @@ def create_table():
         conn.commit()
     conn.close()
 
-
 def table_exists(cursor, table_name):
     cursor.execute(f"SELECT 1 FROM sys.tables WHERE name = '{table_name}'")
     return cursor.fetchone() is not None
 
 
+
 @app.route('/')
 def index():
     return render_template('index.html')
-
 
 @app.route('/upload', methods=['POST'])
 def upload():
@@ -74,12 +72,12 @@ def upload():
         create_table()
         conn = pyodbc.connect(connection_string)
         cursor = conn.cursor()
-
+        
         # Open the file in text mode with the appropriate encoding
         with open(file_path, 'r', encoding='utf-8') as csv_file:
             csv_reader = csv.reader(csv_file)
             next(csv_reader)  # Skip header row
-
+            
             for row in csv_reader:
                 # Extract the values from the row
                 time = row[0]
@@ -122,7 +120,6 @@ def upload():
         return 'Data imported successfully!'
 
     return 'No file selected.'
-
 
 # ... previous code ...
 
@@ -193,43 +190,7 @@ def search():
     return render_template('results.html', results=results)
 
 
-@app.route('/clusters', methods=['GET'])
-def find_clusters():
-    eps = float(request.args.get('eps', 1.0))  # Epsilon parameter for DBSCAN
-    min_samples = int(request.args.get('min_samples', 5))  # Minimum number of samples for DBSCAN
 
-    conn = pyodbc.connect(connection_string)
-    cursor = conn.cursor()
-
-    # Retrieve latitude and longitude values of earthquakes
-    cursor.execute('SELECT latitude, longitude FROM all_month')
-    results = cursor.fetchall()
-    conn.close()
-
-    if len(results) == 0:
-        return 'No earthquake data available.'
-
-    # Prepare data for clustering
-    data = np.array(results)
-    
-    # Perform DBSCAN clustering
-    dbscan = DBSCAN(eps=eps, min_samples=min_samples)
-    labels = dbscan.fit_predict(data)
-
-    # Get unique cluster labels
-    unique_labels = np.unique(labels)
-
-    # Store clusters and their corresponding earthquakes
-    clusters = []
-    for label in unique_labels:
-        if label == -1:
-            # -1 label represents noise/outliers
-            continue
-        cluster_indices = np.where(labels == label)[0]
-        cluster = data[cluster_indices].tolist()
-        clusters.append(cluster)
-
-    return render_template('clusters.html', clusters=clusters)
 
 
 if __name__ == '__main__':
