@@ -1,16 +1,11 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <title>Earthquake Data</title>
-    <!-- index.html and results.html -->
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
-
     <style>
         /* Add your CSS styles here */
     </style>
 </head>
-
 <body>
     <h1>Earthquake Data</h1>
     <form action="/upload" method="POST" enctype="multipart/form-data">
@@ -23,50 +18,5 @@
         <input type="number" name="magnitude" step="0.1">
         <input type="submit" value="Search">
     </form>
-    <hr>
-    <h2>Additional Search Options</h2>
-    <form action="/search" method="POST">
-        <label for="magnitude_range">Magnitude Range:</label>
-        <input type="number" name="min_magnitude" step="0.1" placeholder="Minimum Magnitude">
-        <input type="number" name="max_magnitude" step="0.1" placeholder="Maximum Magnitude">
-        <input type="submit" value="Search">
-    </form>
-    <hr>
-    <form action="/search" method="POST">
-        <label for="time_period">Time Period:</label>
-        <select name="time_period">
-            <option value="1_week">1 Week</option>
-            <option value="range_of_days">Range of Days</option>
-            <option value="30_days">30 Days</option>
-        </select>
-        <br>
-        <div id="date_range_fields" style="display: none;">
-            <label for="start_date">Start Date:</label>
-            <input type="date" name="start_date">
-            <br>
-            <label for="end_date">End Date:</label>
-            <input type="date" name="end_date">
-            <br>
-        </div>
-        <input type="submit" value="Search">
-    </form>
-    
-
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            var timePeriodSelect = document.querySelector("select[name='time_period']");
-            var dateRangeFields = document.getElementById("date_range_fields");
-
-            timePeriodSelect.addEventListener("change", function () {
-                if (this.value === "range_of_days") {
-                    dateRangeFields.style.display = "block";
-                } else {
-                    dateRangeFields.style.display = "none";
-                }
-            });
-        });
-    </script>
 </body>
-
 </html>
