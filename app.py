@@ -16,9 +16,42 @@ connection_string = f"DRIVER={driver};SERVER={server};DATABASE={database};UID={u
 def create_table():
     conn = pyodbc.connect(connection_string)
     cursor = conn.cursor()
-    cursor.execute("CREATE TABLE IF NOT EXISTS all_month (id INT IDENTITY(1,1) PRIMARY KEY, time VARCHAR(50), latitude FLOAT, longitude FLOAT, depth FLOAT, mag FLOAT, magType VARCHAR(50), nst FLOAT, gap FLOAT, dmin FLOAT, rms FLOAT, net VARCHAR(50), eid VARCHAR(50), updated VARCHAR(50), place VARCHAR(100), typ VARCHAR(50), horizontalError FLOAT, depthError FLOAT, magError FLOAT, magNst FLOAT, status VARCHAR(50), locationSource VARCHAR(50), magSource VARCHAR(50))")
-    conn.commit()
+    table_name = "all_month"
+    if not table_exists(cursor, table_name):
+        cursor.execute(f'''
+            CREATE TABLE {table_name} (
+                id INT IDENTITY(1,1) PRIMARY KEY,
+                time VARCHAR(50),
+                latitude FLOAT,
+                longitude FLOAT,
+                depth FLOAT,
+                mag FLOAT,
+                magType VARCHAR(50),
+                nst FLOAT,
+                gap FLOAT,
+                dmin FLOAT,
+                rms FLOAT,
+                net VARCHAR(50),
+                eid VARCHAR(50),
+                updated VARCHAR(50),
+                place VARCHAR(100),
+                typ VARCHAR(50),
+                horizontalError FLOAT,
+                depthError FLOAT,
+                magError FLOAT,
+                magNst FLOAT,
+                status VARCHAR(50),
+                locationSource VARCHAR(50),
+                magSource VARCHAR(50)
+            )
+        ''')
+        conn.commit()
     conn.close()
+
+def table_exists(cursor, table_name):
+    cursor.execute(f"SELECT 1 FROM sys.tables WHERE name = '{table_name}'")
+    return cursor.fetchone() is not None
+
 
 
 @app.route('/')
