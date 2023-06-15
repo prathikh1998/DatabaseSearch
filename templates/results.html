@@ -22,10 +22,11 @@
     <h1>Search Results</h1>
     <table>
         <tr>
-            <th>Time</th>
+            <th>City</th>
+            <th>State</th>
+            <th>Population</th>
             <th>Latitude</th>
             <th>Longitude</th>
-            <th>Magnitude</th>
             <!-- Add more table headers for each column -->
         </tr>
         {% for row in results %}
@@ -33,7 +34,9 @@
             <td>{{ row[0] }}</td>
             <td>{{ row[1] }}</td>
             <td>{{ row[2] }}</td>
+            <td>{{ row[3] }}</td>
             <td>{{ row[4] }}</td>
+
             <!-- Add more table cells for each column -->
         </tr>
         {% endfor %}
