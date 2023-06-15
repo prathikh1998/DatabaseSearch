@@ -1,1 +1,22 @@
-
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Earthquake Data</title>
+    <style>
+        /* Add your CSS styles here */
+    </style>
+</head>
+<body>
+    <h1>Earthquake Data</h1>
+    <form action="/upload" method="POST" enctype="multipart/form-data">
+        <input type="file" name="file">
+        <input type="submit" value="Upload">
+    </form>
+    <hr>
+    <form action="/search" method="POST">
+        <label for="magnitude">Search earthquakes with magnitude greater than:</label>
+        <input type="number" name="magnitude" step="0.1">
+        <input type="submit" value="Search">
+    </form>
+</body>
+</html>
