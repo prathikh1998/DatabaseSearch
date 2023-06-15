@@ -1,17 +1,14 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <title>Search Results</title>
-    <!-- index.html and results.html -->
     <style>
         table {
             border-collapse: collapse;
             width: 100%;
         }
 
-        th,
-        td {
+        th, td {
             border: 1px solid black;
             padding: 8px;
         }
@@ -21,46 +18,25 @@
         }
     </style>
 </head>
-
 <body>
     <h1>Search Results</h1>
-    <form action="/search" method="POST">
-        <label for="magnitude">Search earthquakes with magnitude greater than:</label>
-        <input type="number" name="magnitude" step="0.1">
-        <br>
-        <label for="min_magnitude">Search earthquakes with magnitude between:</label>
-        <input type="number" name="min_magnitude" step="0.1">
-        <input type="number" name="max_magnitude" step="0.1">
-        <br>
-        <input type="submit" value="Search">
-    </form>
-    <hr>
     <table>
-        <thead>
-            <tr>
-                <th>Time</th>
-                <th>Latitude</th>
-                <th>Longitude</th>
-                <th>Depth</th>
-                <th>Magnitude</th>
-                <th>Magnitude type</th>
-                <th>Place</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for result in results %}
-            <tr>
-                <td>{{ result[0] }}</td>
-                <td>{{ result[1] }}</td>
-                <td>{{ result[2] }}</td>
-                <td>{{ result[3] }}</td>
-                <td>{{ result[4] }}</td>
-                <td>{{ result[5] }}</td>
-                <td>{{ result[13] }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
+        <tr>
+            <th>Time</th>
+            <th>Latitude</th>
+            <th>Longitude</th>
+            <th>Magnitude</th>
+            <!-- Add more table headers for each column -->
+        </tr>
+        {% for row in results %}
+        <tr>
+            <td>{{ row[0] }}</td>
+            <td>{{ row[1] }}</td>
+            <td>{{ row[2] }}</td>
+            <td>{{ row[4] }}</td>
+            <!-- Add more table cells for each column -->
+        </tr>
+        {% endfor %}
     </table>
 </body>
-
 </html>
