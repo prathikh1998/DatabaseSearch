@@ -122,6 +122,40 @@ def bounding_box_search():
     conn.close()
     return render_template('box_results.html', cities_in_box=cities_in_box)
 
+@app.route('/add', methods=['POST'])
+def add_city():
+    city = request.form['add-city']
+    state = request.form['add-state']
+    population = int(request.form['add-population'])
+    lat = float(request.form['add-lat'])
+    lon = float(request.form['add-lon'])
+    
+    conn = pyodbc.connect(connection_string)
+    cursor = conn.cursor()
+    cursor.execute('''
+        INSERT INTO city (City, State, Population, lat, lon)
+        VALUES (?, ?, ?, ?, ?)
+    ''', (city, state, population, lat, lon))
+    conn.commit()
+    conn.close()
+    
+    return 'City added successfully!'
+
+@app.route('/remove', methods=['POST'])
+def remove_city():
+    city = request.form['remove-city']
+    state = request.form['remove-state']
+    
+    conn = pyodbc.connect(connection_string)
+    cursor = conn.cursor()
+    cursor.execute('''
+        DELETE FROM city WHERE City = ? AND State = ?
+    ''', (city, state))
+    conn.commit()
+    conn.close()
+    
+    return 'City removed successfully!'
+
 
 if __name__ == '__main__':
     app.run()
