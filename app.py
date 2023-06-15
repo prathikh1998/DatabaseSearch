@@ -15,6 +15,7 @@ driver = '{ODBC Driver 17 for SQL Server}'
 
 connection_string = f"DRIVER={driver};SERVER={server};DATABASE={database};UID={username};PWD={password}"
 
+
 def create_table():
     conn = pyodbc.connect(connection_string)
     cursor = conn.cursor()
@@ -50,15 +51,16 @@ def create_table():
         conn.commit()
     conn.close()
 
+
 def table_exists(cursor, table_name):
     cursor.execute(f"SELECT 1 FROM sys.tables WHERE name = '{table_name}'")
     return cursor.fetchone() is not None
 
 
-
 @app.route('/')
 def index():
     return render_template('index.html')
+
 
 @app.route('/upload', methods=['POST'])
 def upload():
@@ -72,12 +74,12 @@ def upload():
         create_table()
         conn = pyodbc.connect(connection_string)
         cursor = conn.cursor()
-        
+
         # Open the file in text mode with the appropriate encoding
         with open(file_path, 'r', encoding='utf-8') as csv_file:
             csv_reader = csv.reader(csv_file)
             next(csv_reader)  # Skip header row
-            
+
             for row in csv_reader:
                 # Extract the values from the row
                 time = row[0]
@@ -121,11 +123,8 @@ def upload():
 
     return 'No file selected.'
 
+
 # ... previous code ...
-
-from datetime import datetime, timedelta
-
-# ...
 
 from datetime import datetime, timedelta
 
@@ -194,7 +193,7 @@ def search():
     return render_template('results.html', results=results)
 
 
-    @app.route('/clusters', methods=['GET'])
+@app.route('/clusters', methods=['GET'])
 def find_clusters():
     eps = float(request.args.get('eps', 1.0))  # Epsilon parameter for DBSCAN
     min_samples = int(request.args.get('min_samples', 5))  # Minimum number of samples for DBSCAN
@@ -231,9 +230,6 @@ def find_clusters():
         clusters.append(cluster)
 
     return render_template('clusters.html', clusters=clusters)
-
-
-
 
 
 if __name__ == '__main__':
