@@ -126,6 +126,7 @@ def search():
     magnitude = request.form.get('magnitude', None)
     min_magnitude = request.form.get('min_magnitude', None)
     max_magnitude = request.form.get('max_magnitude', None)
+    time_period = request.form.get('time_period', None)
 
     conn = pyodbc.connect(connection_string)
     cursor = conn.cursor()
@@ -138,6 +139,11 @@ def search():
         cursor.execute('''
             SELECT * FROM all_month WHERE mag > ?
         ''', (magnitude,))
+    elif time_period == "range_of_days":
+        # Adjust the query according to your database schema and column names
+        cursor.execute('''
+            SELECT * FROM all_month WHERE time >= ? AND time <= ?
+        ''', (start_date, end_date))
     else:
         return 'No search criteria provided.'
 
