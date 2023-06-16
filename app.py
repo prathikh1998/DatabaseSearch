@@ -122,10 +122,11 @@ def bounding_box_search():
     conn.close()
     return render_template('box_results.html', cities_in_box=cities_in_box)
 
+# Add City Route
 @app.route('/add', methods=['POST'])
 def add_city():
-    city = request.form['add-city']
-    state = request.form['add-state']
+    city = request.form['add-city']  # Corrected name
+    state = request.form['add-state']  # Corrected name
     population = int(request.form['add-population'])
     lat = float(request.form['add-lat'])
     lon = float(request.form['add-lon'])
@@ -143,8 +144,8 @@ def add_city():
 
 @app.route('/remove', methods=['POST'])
 def remove_city():
-    city = request.form['remove-city']
-    state = request.form['remove-state']
+    city = request.form['remove-city']  # Corrected name
+    state = request.form['remove-state']  # Corrected name
     
     conn = pyodbc.connect(connection_string)
     cursor = conn.cursor()
