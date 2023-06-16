@@ -85,6 +85,12 @@ def upload():
 @app.route('/search', methods=['POST'])
 def search():
     city = request.form['city']
+    
+    # Retrieve the population growth values
+    min_pop = int(request.form['min_pop'])
+    max_pop = int(request.form['max_pop'])
+    increment = int(request.form['increment'])
+
     conn = pyodbc.connect(connection_string)
     cursor = conn.cursor()
     cursor.execute('''
@@ -103,11 +109,79 @@ def search():
         ''', (city, selected_lat, selected_lon))
         
         nearby_cities = cursor.fetchall()
+        
+        modified_cities = []
+        
+        # Check and update population for nearby cities
+        for city in nearby_cities:
+            population = city.Population
+            if min_pop <= population <= max_pop:
+                new_population = population + increment
+                modified_cities.append({
+                    'City': city.City,
+                    'State': city.State,
+                    'Population': new_population,
+                    'Latitude': city.lat,
+                    'Longitude': city.lon
+                })
+
+                # Update the population in the database
+                cursor.execute('''
+                    UPDATE city SET Population = ? WHERE City = ? AND State = ?
+                ''', (new_population, city.City, city.State))
+
+        conn.commit()
         conn.close()
-        return render_template('results.html', selected_city=selected_city, nearby_cities=nearby_cities)
+
+        modified_count = len(modified_cities)
+
+        return render_template('results.html', selected_city=selected_city, nearby_cities=modified_cities, modified_count=modified_count)
     else:
         conn.close()
         return render_template('results.html', selected_city=None, nearby_cities=None)
+
+
+@app.route('/state_search', methods=['POST'])
+def state_search():
+    state = request.form['state']
+    min_pop = int(request.form['min_pop'])
+    max_pop = int(request.form['max_pop'])
+    inc = int(request.form['inc'])
+
+    conn = pyodbc.connect(connection_string)
+    cursor = conn.cursor()
+
+    # Fetch cities within the specified state and population range
+    cursor.execute('''
+        SELECT * FROM city WHERE State = ? AND Population BETWEEN ? AND ?
+    ''', (state, min_pop, max_pop))
+
+    cities_in_state = cursor.fetchall()
+
+    modified_cities = []
+    for city in cities_in_state:
+        # Increment population by the specified increment value
+        new_population = city.Population + inc
+
+        # Update the population in the database
+        cursor.execute('''
+            UPDATE city SET Population = ? WHERE City = ? AND State = ?
+        ''', (new_population, city.City, city.State))
+
+        modified_cities.append({
+            'City': city.City,
+            'State': city.State,
+            'OriginalPopulation': city.Population,
+            'NewPopulation': new_population,
+            'lat': city.lat,
+            'lon': city.lon
+        })
+
+    conn.commit()
+    conn.close()
+
+    return render_template('results.html', selected_city=None, nearby_cities=None, modified_cities=modified_cities)
+
 
 
 @app.route('/bounding_box_search', methods=['POST'])
@@ -117,7 +191,10 @@ def bounding_box_search():
     max_lat = float(request.form['max_lat'])
     max_lon = float(request.form['max_lon'])
 
-    
+    # Retrieve the population growth values
+    min_pop = int(request.form['min_pop'])
+    max_pop = int(request.form['max_pop'])
+    increment = int(request.form['increment'])
 
     conn = pyodbc.connect(connection_string)
     cursor = conn.cursor()
@@ -127,35 +204,33 @@ def bounding_box_search():
     ''', (min_lat, max_lat, min_lon, max_lon))
     
     cities_in_box = cursor.fetchall()
-    conn.close()
-    return render_template('box_results.html', cities_in_box=cities_in_box)
 
-# Add City Route
-# Add City Route
-@app.route('/add', methods=['POST'])
-def add():
-    city = request.form['add_city']
-    state = request.form['add_state']
-    population = int(request.form['add_population'])
-    lat = float(request.form['add_lat'])
-    lon = float(request.form['add_lon'])
-
-    logging.info(f"City: {city}")
-    logging.info(f"State: {state}")
-    logging.info(f"Population: {population}")
-    logging.info(f"Latitude: {lat}")
-    logging.info(f"Longitude: {lon}")
+    modified_cities = []
     
-    conn = pyodbc.connect(connection_string)
-    cursor = conn.cursor()
-    cursor.execute('''
-        INSERT INTO city (City, State, Population, lat, lon)
-        VALUES (?, ?, ?, ?, ?)
-    ''', (city, state, population, lat, lon))
+    for city in cities_in_box:
+        population = city.Population
+        if min_pop <= population <= max_pop:
+            new_population = population + increment
+            modified_cities.append({
+                'City': city.City,
+                'State': city.State,
+                'Population': new_population,
+                'Latitude': city.lat,
+                'Longitude': city.lon
+            })
+
+            # Update the population in the database
+            cursor.execute('''
+                UPDATE city SET Population = ? WHERE City = ? AND State = ?
+            ''', (new_population, city.City, city.State))
+
     conn.commit()
     conn.close()
+
+    modified_count = len(modified_cities)
     
-    return 'City added successfully!'
+    return render_template('box_results.html', cities_in_box=modified_cities, modified_count=modified_count)
+
 
 @app.route('/remove', methods=['POST'])
 def remove():
