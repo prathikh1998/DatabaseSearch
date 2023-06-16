@@ -125,7 +125,7 @@ def bounding_box_search():
 # Add City Route
 # Add City Route
 @app.route('/add', methods=['POST'])
-def add_city():
+def add():
     city = request.form['add_city']  # Corrected name
     state = request.form['add_state']  # Corrected name
     population = int(request.form['add_population'])
@@ -144,7 +144,7 @@ def add_city():
     return 'City added successfully!'
 
 @app.route('/remove', methods=['POST'])
-def remove_city():
+def remove():
     city = request.form['remove_city']  # Corrected name
     state = request.form['remove_state']  # Corrected name
     
