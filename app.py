@@ -130,6 +130,52 @@ def bounding_box_search():
     conn.close()
     return render_template('box_results.html', cities_in_box=cities_in_box)
 
+@app.route('/population_increment', methods=['GET', 'POST'])
+def population_increment():
+    if request.method == 'POST':
+        # Get the state and population increment values from the form
+        state = request.form['state']
+        min_population = int(request.form['min_population'])
+        max_population = int(request.form['max_population'])
+        increment = int(request.form['increment'])
+
+        # Retrieve the cities within the specified state and population range from the database
+        conn = pyodbc.connect(connection_string)
+        cursor = conn.cursor()
+        cursor.execute('''
+            SELECT * FROM city WHERE State = ? AND Population >= ? AND Population <= ?
+        ''', (state, min_population, max_population))
+        cities = cursor.fetchall()
+        conn.close()
+
+        # Increment the population of each city within the specified range
+        modified_cities = []
+        for city in cities:
+            modified_population = city.Population + increment
+            modified_cities.append({
+                'City': city.City,
+                'State': city.State,
+                'Population': modified_population,
+                'Latitude': city.lat,
+                'Longitude': city.lon
+            })
+
+            # Update the population of the city in the database
+            conn = pyodbc.connect(connection_string)
+            cursor = conn.cursor()
+            cursor.execute('''
+                UPDATE city SET Population = ? WHERE City = ? AND State = ?
+            ''', (modified_population, city.City, city.State))
+            conn.commit()
+            conn.close()
+
+        # Render the population increment results page
+        return render_template('population_increment.html', modified_cities=modified_cities)
+
+    # If it's a GET request, render the population increment form
+    return render_template('population_increment.html')
+
+
 # Add City Route
 # Add City Route
 @app.route('/add', methods=['POST'])
@@ -156,48 +202,6 @@ def add():
     conn.close()
     
     return 'City added successfully!'
-
-@app.route('/population_increment', methods=['POST'])
-def population_increment():
-    state = request.form['state']
-    min_population = int(request.form['min_population'])
-    max_population = int(request.form['max_population'])
-    increment = int(request.form['increment'])
-    
-    conn = pyodbc.connect(connection_string)
-    cursor = conn.cursor()
-    
-    # Fetch cities within the specified state and population range
-    cursor.execute('''
-        SELECT * FROM city WHERE State = ? AND Population >= ? AND Population <= ?
-    ''', (state, min_population, max_population))
-    
-    cities = cursor.fetchall()
-
-    # Increment the population of each city
-    modified_cities = []
-    for city in cities:
-        city_population = city.Population
-        new_population = city_population + increment
-        
-        # Update the population of the city
-        cursor.execute('''
-            UPDATE city SET Population = ? WHERE City = ? AND State = ?
-        ''', (new_population, city.City, city.State))
-        
-        modified_cities.append({
-            'City': city.City,
-            'State': city.State,
-            'Population': new_population,
-            'Latitude': city.lat,
-            'Longitude': city.lon
-        })
-    
-    conn.commit()
-    conn.close()
-    
-    # Render the results template with the modified cities
-    return render_template('population_increment_results.html', modified_cities=modified_cities)
 
 
 @app.route('/remove', methods=['POST'])
