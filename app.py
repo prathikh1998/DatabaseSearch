@@ -9,7 +9,7 @@ import logging
 app = Flask(__name__)
 
 # Configure logging
-logging.basicConfig(level=logging.INFO, format='%(asctime)s: [%(levelname)s] %(message)s')
+logging.basicConfig(level=logging.INFO)
 
 
 # Azure SQL Database configuration
