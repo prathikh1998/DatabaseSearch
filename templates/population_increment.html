@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Population Increment</title>
+</head>
+<body>
+    <h1>Population Increment</h1>
+    <form action="/population_increment" method="POST">
+        <label for="state">State:</label>
+        <input type="text" name="state" id="state" required>
+        <br>
+        <label for="min_population">Minimum Population:</label>
+        <input type="number" name="min_population" id="min_population" required>
+        <label for="max_population">Maximum Population:</label>
+        <input type="number" name="max_population" id="max_population" required>
+        <br>
+        <label for="increment">Increment:</label>
+        <input type="number" name="increment" id="increment" required>
+        <br>
+        <button type="submit">Increment Population</button>
+    </form>
+</body>
+</html>
