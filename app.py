@@ -155,7 +155,8 @@ def population_increment():
             modified_cities.append({
                 'City': city.City,
                 'State': city.State,
-                'Population': modified_population,
+                'OriginalPopulation': city.Population,
+                'NewPopulation': modified_population,
                 'Latitude': city.lat,
                 'Longitude': city.lon
             })
@@ -170,10 +171,11 @@ def population_increment():
             conn.close()
 
         # Render the population increment results page
-        return render_template('population_increment.html', modified_cities=modified_cities)
+        return render_template('increment_population_results.html', modified_cities=modified_cities)
 
     # If it's a GET request, render the population increment form
     return render_template('population_increment.html')
+
 
 
 # Add City Route
