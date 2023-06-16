@@ -3,8 +3,14 @@ import csv
 import pyodbc
 import sqlite3
 from geopy.distance import geodesic
+import logging
+
 
 app = Flask(__name__)
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+
 
 # Azure SQL Database configuration
 server = 'tcp:prathikhegde.database.windows.net,1433'
@@ -128,17 +134,17 @@ def bounding_box_search():
 # Add City Route
 @app.route('/add', methods=['POST'])
 def add():
-    city = request.form['add_city']  # Corrected name
-    state = request.form['add_state']  # Corrected name
+    city = request.form['add_city']
+    state = request.form['add_state']
     population = int(request.form['add_population'])
     lat = float(request.form['add_lat'])
     lon = float(request.form['add_lon'])
 
-    print(f"City: {city}")
-    print(f"State: {state}")
-    print(f"Population: {population}")
-    print(f"Latitude: {lat}")
-    print(f"Longitude: {lon}")
+    logging.info(f"City: {city}")
+    logging.info(f"State: {state}")
+    logging.info(f"Population: {population}")
+    logging.info(f"Latitude: {lat}")
+    logging.info(f"Longitude: {lon}")
     
     conn = pyodbc.connect(connection_string)
     cursor = conn.cursor()
