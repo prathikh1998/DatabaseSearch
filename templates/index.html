@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>City Search</title>
 </head>
+
 <body>
     <h1>City Search</h1>
     <h1>PRATHIK HEGDE - 1002084424</h1>
@@ -11,9 +13,9 @@
         <input type="text" name="city" id="city" required>
         <button type="submit">Search</button>
     </form>
-    
+
     <hr>
-    
+
     <h2>Bounding Box Search</h2>
     <form action="/bounding_box_search" method="POST">
         <label for="min_lat">Minimum Latitude:</label>
@@ -28,38 +30,30 @@
         <br>
         <button type="submit">Search</button>
     </form>
-    
+
     <hr>
-    
+
     <h2>Add City</h2>
+    <!-- Add City Form -->
     <form action="/add" method="POST">
         <label for="add_city">City:</label>
-        <input type="text" name="add_city" id="add_city" required>
+        <input type="text" name="add-city" id="add_city" required>
         <label for="add_state">State:</label>
-        <input type="text" name="add_state" id="add_state" required>
-        <br>
-        <label for="add_population">Population:</label>
-        <input type="number" name="add_population" id="add_population" required>
-        <label for="add_lat">Latitude:</label>
-        <input type="number" name="add_lat" id="add_lat" step="any" required>
-        <br>
-        <label for="add_lon">Longitude:</label>
-        <input type="number" name="add_lon" id="add_lon" step="any" required>
-        <br>
-        <button type="submit">Add City</button>
+        <input type="text" name="add-state" id="add_state" required>
+        <!-- Rest of the form -->
     </form>
-    
-    <hr>
-    
+
+    <!-- Remove City Form -->
     <h2>Remove City</h2>
     <form action="/remove" method="POST">
         <label for="remove_city">City:</label>
-        <input type="text" name="remove_city" id="remove_city" required>
+        <input type="text" name="remove-city" id="remove_city" required>
         <label for="remove_state">State:</label>
-        <input type="text" name="remove_state" id="remove_state" required>
-        <br>
-        <button type="submit">Remove City</button>
+        <input type="text" name="remove-state" id="remove_state" required>
+        <!-- Rest of the form -->
     </form>
-    
+
+
 </body>
+
 </html>
