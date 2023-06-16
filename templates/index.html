@@ -5,61 +5,45 @@
 </head>
 <body>
     <h1>City Search</h1>
-    <h1>PRATHIK HEGDE - 1002084424</h1>
     <form action="/search" method="POST">
         <label for="city">City:</label>
-        <input type="text" name="city" id="city" required>
-        <button type="submit">Search</button>
+        <input type="text" id="city" name="city">
+        <br><br>
+        <label for="min_pop">Min Population:</label>
+        <input type="number" id="min_pop" name="min_pop">
+        <br><br>
+        <label for="max_pop">Max Population:</label>
+        <input type="number" id="max_pop" name="max_pop">
+        <br><br>
+        <label for="increment">Population Increment:</label>
+        <input type="number" id="increment" name="increment">
+        <br><br>
+        <input type="submit" value="Search">
     </form>
-    
-    <hr>
-    
-    <h2>Bounding Box Search</h2>
+    <br>
     <form action="/bounding_box_search" method="POST">
-        <label for="min_lat">Minimum Latitude:</label>
-        <input type="text" name="min_lat" id="min_lat" required>
-        <label for="min_lon">Minimum Longitude:</label>
-        <input type="text" name="min_lon" id="min_lon" required>
-        <br>
-        <label for="max_lat">Maximum Latitude:</label>
-        <input type="text" name="max_lat" id="max_lat" required>
-        <label for="max_lon">Maximum Longitude:</label>
-        <input type="text" name="max_lon" id="max_lon" required>
-        <br>
-        <button type="submit">Search</button>
+        <label for="min_lat">Min Latitude:</label>
+        <input type="text" id="min_lat" name="min_lat">
+        <br><br>
+        <label for="max_lat">Max Latitude:</label>
+        <input type="text" id="max_lat" name="max_lat">
+        <br><br>
+        <label for="min_lon">Min Longitude:</label>
+        <input type="text" id="min_lon" name="min_lon">
+        <br><br>
+        <label for="max_lon">Max Longitude:</label>
+        <input type="text" id="max_lon" name="max_lon">
+        <br><br>
+        <label for="min_pop_box">Min Population:</label>
+        <input type="number" id="min_pop_box" name="min_pop">
+        <br><br>
+        <label for="max_pop_box">Max Population:</label>
+        <input type="number" id="max_pop_box" name="max_pop">
+        <br><br>
+        <label for="increment_box">Population Increment:</label>
+        <input type="number" id="increment_box" name="increment">
+        <br><br>
+        <input type="submit" value="Search in Bounding Box">
     </form>
-    
-    <hr>
-    
-    <h2>Add City</h2>
-    <form action="/add" method="POST">
-        <label for="add_city">City:</label>
-        <input type="text" name="add_city" id="add_city" required>
-        <label for="add_state">State:</label>
-        <input type="text" name="add_state" id="add_state" required>
-        <br>
-        <label for="add_population">Population:</label>
-        <input type="number" name="add_population" id="add_population" required>
-        <label for="add_lat">Latitude:</label>
-        <input type="number" name="add-lat" id="add_lat" step="any" required>
-        <br>
-        <label for="add_lon">Longitude:</label>
-        <input type="number" name="add_lon" id="add_lon" step="any" required>
-        <br>
-        <button type="submit">Add City</button>
-    </form>
-    
-    <hr>
-    
-    <h2>Remove City</h2>
-    <form action="/remove" method="POST">
-        <label for="remove_city">City:</label>
-        <input type="text" name="remove_city" id="remove_city" required>
-        <label for="remove_state">State:</label>
-        <input type="text" name="remove_state" id="remove_state" required>
-        <br>
-        <button type="submit">Remove City</button>
-    </form>
-    
 </body>
 </html>

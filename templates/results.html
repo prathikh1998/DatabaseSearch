@@ -5,6 +5,7 @@
 </head>
 <body>
     <h1>City Search Results</h1>
+    
     {% if selected_city %}
         <h2>Selected City</h2>
         <ul>
@@ -18,19 +19,40 @@
         {% if nearby_cities %}
             <h2>Nearby Cities</h2>
             <ul>
-            {% for city in nearby_cities %}
-                <li>
-                    <strong>City:</strong> {{ city.City }},
-                    <strong>State:</strong> {{ city.State }},
-                    <strong>Population:</strong> {{ city.Population }},
-                    <strong>Latitude:</strong> {{ city.lat }},
-                    <strong>Longitude:</strong> {{ city.lon }}
-                </li>
-            {% endfor %}
+                {% for city in nearby_cities %}
+                    <li>
+                        <strong>City:</strong> {{ city.City }},
+                        <strong>State:</strong> {{ city.State }},
+                        <strong>Population:</strong> {{ city.Population }},
+                        <strong>Latitude:</strong> {{ city.lat }},
+                        <strong>Longitude:</strong> {{ city.lon }}
+                    </li>
+                {% endfor %}
             </ul>
+            
+            {% if modified_cities %}
+                <h2>Modified Cities</h2>
+                <ul>
+                    {% for city in modified_cities %}
+                        <li>
+                            <strong>City:</strong> {{ city.City }},
+                            <strong>State:</strong> {{ city.State }},
+                            <strong>Original Population:</strong> {{ city.OriginalPopulation }},
+                            <strong>New Population:</strong> {{ city.NewPopulation }},
+                            <strong>Latitude:</strong> {{ city.lat }},
+                            <strong>Longitude:</strong> {{ city.lon }}
+                        </li>
+                    {% endfor %}
+                </ul>
+                <p>Count of Modified Cities: {{ modified_cities|length }}</p>
+            {% else %}
+                <p>No cities modified.</p>
+            {% endif %}
+            
         {% else %}
             <p>No nearby cities found.</p>
         {% endif %}
+        
     {% else %}
         <p>No city found.</p>
     {% endif %}
