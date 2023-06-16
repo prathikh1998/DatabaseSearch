@@ -111,6 +111,8 @@ def bounding_box_search():
     max_lat = float(request.form['max_lat'])
     max_lon = float(request.form['max_lon'])
 
+    
+
     conn = pyodbc.connect(connection_string)
     cursor = conn.cursor()
     
@@ -131,6 +133,12 @@ def add():
     population = int(request.form['add_population'])
     lat = float(request.form['add_lat'])
     lon = float(request.form['add_lon'])
+
+    print(f"City: {city}")
+    print(f"State: {state}")
+    print(f"Population: {population}")
+    print(f"Latitude: {lat}")
+    print(f"Longitude: {lon}")
     
     conn = pyodbc.connect(connection_string)
     cursor = conn.cursor()
